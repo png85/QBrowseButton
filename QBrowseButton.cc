@@ -1,11 +1,9 @@
 #include <QVBoxLayout>
 #include <QDebug>
 
+#include "nullptr.h"
 #include "QBrowseButton.h"
 
-#ifndef HAVE_CXX11_NULLPTR
-#define nullptr 0
-#endif
 
 QBrowseButton::QBrowseButton(QWidget *parent) :
     QFrame(parent), m_mode(QFileDialog::AnyFile), m_caption(tr("Browse for file")),

@@ -29,7 +29,28 @@ include(${QT_USE_FILE})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 
+#
+# libQBrowseButton: Library for applications using QBrowseButton
 set(libQBrowseButton_MOC_HDRS QBrowseButton.h)
 set(libQBrowseButton_SRCS QBrowseButton.cc)
 QT4_WRAP_CPP(libQBrowseButton_MOC_SRCS ${libQBrowseButton_MOC_HDRS})
 add_library(QBrowseButton ${libQBrowseButton_MOC_SRCS} ${libQBrowseButton_SRCS})
+install(TARGETS QBrowseButton DESTINATION lib/)
+
+
+#
+# QBrowseButtonPlugin: Qt Designer plugin to use QBrowseButton in .ui files
+add_definitions(${QT_DEFINITIONS})
+add_definitions(-DQT_PLUGIN)
+add_definitions(-DQT_NO_DEBUG)
+add_definitions(-DQT_SHARED)
+if(WIN32)
+  add_definitions(-DQT_DLL)
+endif(WIN32)
+set(libQBrowseButtonPlugin_MOC_HDRS QBrowseButtonDesignerFactory.h)
+set(libQBrowseButtonPlugin_SRCS QBrowseButtonDesignerFactory.cc)
+add_library(QBrowseButtonPlugin SHARED ${libQBrowseButtonPlugin_MOC_SRCS}
+                                       ${libQBrowseButtonPlugin_SRCS}
+                                       ${libQBrowseButton_MOC_SRCS}
+                                       ${libQBrowseButton_MOC_HDRS})
+install(TARGETS QBrowseButtonPlugin DESTINATION ${QT_PLUGINS_DIR}/qbrowsebutton)

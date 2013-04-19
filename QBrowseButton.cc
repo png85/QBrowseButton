@@ -1,14 +1,14 @@
-#include <QHBoxLayout>
 /** \file
  *
- * \brief Declaration of \a QBrowseButton
+ * \brief Implementation of \a QBrowseButton
  *
- * This file provides the declaration of the \a QBrowseButton class.
+ * This file provides the implementation of the \a QBrowseButton class.
  *
  * \author Peter 'png' Hille <peter@das-system-networks.de>
  *
  * \version 1.0
  */
+#include <QHBoxLayout>
 #include <QDebug>
 
 #include "nullptr.h"

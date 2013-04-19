@@ -46,7 +46,7 @@ target_link_libraries(QBrowseButton-test QBrowseButton ${QT_LIBRARIES})
 #
 # QBrowseButtonPlugin: Qt Designer plugin to use QBrowseButton in .ui files
 option(QBROWSEBUTTON_WITH_DESIGNER_PLUGIN "Build plugin to use widget in Qt Designer" ON)
-  if(QBROWSEBUTTON_WITH_DESIGNER_PLUGIN)
+if(QBROWSEBUTTON_WITH_DESIGNER_PLUGIN)
   add_definitions(${QT_DEFINITIONS})
   add_definitions(-DQT_PLUGIN)
   add_definitions(-DQT_SHARED)

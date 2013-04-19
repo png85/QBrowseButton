@@ -176,13 +176,13 @@ void QBrowseButton::setButtonText(QString text) {
 void QBrowseButton::btnBrowse_clicked() {
     QString selection;
     switch (m_mode) {
-    default:
-    case QFileDialog::AnyFile:
-        selection = QFileDialog::getOpenFileName(this, m_caption, m_selectedItem, "*");
-        break;
-
     case QFileDialog::DirectoryOnly:
         selection = QFileDialog::getExistingDirectory(this, m_caption, m_selectedItem);
+        break;
+
+    case QFileDialog::AnyFile:
+    default:
+        selection = QFileDialog::getOpenFileName(this, m_caption, m_selectedItem, "*");
         break;
     }
 
@@ -190,6 +190,7 @@ void QBrowseButton::btnBrowse_clicked() {
         return;
 
     m_selectedItem = selection;
+    ui_leSelectedItem->setText(selection);
 
     emit newSelection(selection);
 }

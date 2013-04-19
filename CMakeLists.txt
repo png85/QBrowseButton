@@ -42,15 +42,15 @@ install(TARGETS QBrowseButton DESTINATION lib/)
 # QBrowseButtonPlugin: Qt Designer plugin to use QBrowseButton in .ui files
 add_definitions(${QT_DEFINITIONS})
 add_definitions(-DQT_PLUGIN)
-add_definitions(-DQT_NO_DEBUG)
+#add_definitions(-DQT_NO_DEBUG)
 add_definitions(-DQT_SHARED)
 if(WIN32)
   add_definitions(-DQT_DLL)
 endif(WIN32)
 set(libQBrowseButtonPlugin_MOC_HDRS QBrowseButtonDesignerFactory.h)
 set(libQBrowseButtonPlugin_SRCS QBrowseButtonDesignerFactory.cc)
-add_library(QBrowseButtonPlugin SHARED ${libQBrowseButtonPlugin_MOC_SRCS}
-                                       ${libQBrowseButtonPlugin_SRCS}
-                                       ${libQBrowseButton_MOC_SRCS}
-                                       ${libQBrowseButton_MOC_HDRS})
-install(TARGETS QBrowseButtonPlugin DESTINATION ${QT_PLUGINS_DIR}/qbrowsebutton)
+QT4_WRAP_CPP(libQBrowseButtonPlugin_MOC_SRCS ${libQBrowseButtonPlugin_MOC_HDRS})
+add_library(QBrowseButtonPlugin SHARED ${libQBrowseButtonPlugin_MOC_SRCS} ${libQBrowseButtonPlugin_SRCS}
+                                       ${libQBrowseButton_MOC_SRCS} ${libQBrowseButton_SRCS})
+target_link_libraries(QBrowseButtonPlugin ${QT_LIBRARIES})
+install(TARGETS QBrowseButtonPlugin DESTINATION ${QT_PLUGINS_DIR}/designer)

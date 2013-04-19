@@ -1,3 +1,13 @@
+/** \file
+ *
+ * \brief Declaration of \a QBrowseButton
+ *
+ * This file provides the declaration of the \a QBrowseButton class.
+ *
+ * \author Peter 'png' Hille <peter@das-system-networks.de>
+ *
+ * \version 1.0
+ */
 #ifndef QBROWSEBUTTON_H
 #define QBROWSEBUTTON_H
 
@@ -9,6 +19,15 @@
 
 #include <QFileDialog>
 
+
+/** \brief 'Browse...' button for files or directories
+ *
+ * This class provides a simple button to browse for files or directories.
+ *
+ * \author Peter 'png' Hille <peter@das-system-networks.de>
+ *
+ * \version 1.0 Initial implementation
+ */
 class QBrowseButton : public QFrame
 {
     Q_OBJECT
@@ -23,10 +42,50 @@ public:
     QBrowseButton(QWidget* parent=0);
     QBrowseButton(QDir dir, QWidget* parent=0);
 
+    /** \brief Get current selection mode
+     *
+     * Returns the current selection mode for this QBrowseButton.
+     *
+     * \see setMode
+     * \see m_mode
+     */
     QFileDialog::FileMode mode() const { return m_mode; }
+
+    /** \brief Get dialog caption
+     *
+     * Returns the caption for the dialog box that is shown when the user
+     * clicks the 'browse' button.
+     *
+     * \see setCaption
+     * \see m_caption
+     */
     QString caption() const { return m_caption; }
-    QString buttonText() const { return m_buttonText; }
+
+    /** \brief Get button caption
+     *
+     * Returns the caption for the 'browse' button.
+     *
+     * \see setButtonText
+     * \see m_buttonText
+     */
+    QString buttonText() const { return ui_btnBrowse->text(); }
+
+    /** \brief Get currently selected item
+     *
+     * Returns the path or file that has been selected in this QBrowseButton.
+     *
+     * \see setSelectedItem
+     * \see m_selectedItem
+     */
     QString selectedItem() const { return m_selectedItem; }
+
+
+    /** \brief Get button icon
+     *
+     * Returns the current icon of the 'browse' button.
+     *
+     * \see ui_btnBrowse
+     */
     QIcon icon() const { return ui_btnBrowse->icon(); }
 
 public slots:
@@ -43,13 +102,40 @@ private slots:
     void btnBrowse_clicked();
 
 private:
+    /** \brief Current selection mode
+     *
+     * Specifies wether the widget is used to browse for a file or directory.
+     */
     QFileDialog::FileMode m_mode;
+
+    /** \brief Dialog box caption
+     *
+     * Holds the caption for the dialog box that is displayed when the user clicks
+     * the 'browse' button.
+     */
     QString m_caption;
-    QString m_buttonText;
+
+    /** \brief Selected file or directory
+     *
+     * Holds the filename or directory that has been selected in this QBrowseButton.
+     */
     QString m_selectedItem;
 
+    /** \brief Text box for selected file
+     *
+     * Contains the currently selected filename or directory.
+     *
+     * \see m_selectedItem
+     */
     QLineEdit* ui_leSelectedItem;
+
+    /** \brief 'Browse' button
+     *
+     * This button shows a QFileDialog with the settings that have been configured when
+     * it's clicked.
+     */
     QPushButton* ui_btnBrowse;
+
     void setupUi();
 };
 

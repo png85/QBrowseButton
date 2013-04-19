@@ -19,6 +19,9 @@
 
 #include <QFileDialog>
 
+#include <QAbstractItemModel>
+#include <QCompleter>
+#include <QFileSystemModel>
 
 /** \brief 'Browse...' button for files or directories
  *
@@ -37,6 +40,7 @@ class QBrowseButton : public QFrame
     Q_PROPERTY(QString buttonText READ buttonText WRITE setButtonText)
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon)
     Q_PROPERTY(QString selectedItem READ selectedItem WRITE setSelectedItem)
+    Q_PROPERTY(bool needsToExist READ needsToExist WRITE setNeedsToExist)
 
 public:
     QBrowseButton(QWidget* parent=0);
@@ -88,18 +92,22 @@ public:
      */
     QIcon icon() const { return ui_btnBrowse->icon(); }
 
+    bool needsToExist() const { return m_needsToExist; }
+
 public slots:
     void setMode(QFileDialog::FileMode mode);
     void setCaption(QString caption);
     void setButtonText(QString text);
     void setSelectedItem(QString path);
     void setIcon(QIcon icon);
+    void setNeedsToExist(bool);
 
 signals:
     void newSelection(QString selectedItem);
 
 private slots:
     void btnBrowse_clicked();
+    void leSelectedItem_textChanged(QString text);
 
 private:
     /** \brief Current selection mode
@@ -135,6 +143,10 @@ private:
      * it's clicked.
      */
     QPushButton* ui_btnBrowse;
+
+    QCompleter *m_completer;
+    QFileSystemModel* m_fileSystemModel;
+    bool m_needsToExist;
 
     void setupUi();
 };

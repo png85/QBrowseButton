@@ -10,6 +10,7 @@
  */
 #include <QHBoxLayout>
 #include <QDebug>
+#include <QMessageBox>
 
 #include "nullptr.h"
 #include "QBrowseButton.h"
@@ -24,7 +25,8 @@
  */
 QBrowseButton::QBrowseButton(QWidget *parent) :
     QFrame(parent), m_mode(QFileDialog::AnyFile), m_caption(tr("Browse for file")),
-    m_selectedItem("")
+    m_selectedItem(""),
+    m_completer(nullptr), m_fileSystemModel(nullptr), m_needsToExist(false)
 {
     setupUi();
 }
@@ -68,13 +70,45 @@ void QBrowseButton::setupUi() {
     try {
         ui_leSelectedItem = new QLineEdit(m_selectedItem, this);
         ui_leSelectedItem->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
-        hbox->addWidget(ui_leSelectedItem);
+        connect(ui_leSelectedItem, SIGNAL(textChanged(QString)), this, SLOT(leSelectedItem_textChanged(QString)));
     }
 
     catch (std::bad_alloc& ex) {
         qCritical() << "Caught exception when trying to allocate new QLineEdit in" << Q_FUNC_INFO << ":" << ex.what();
         throw;
     }
+
+
+
+    try {
+        m_completer = new QCompleter(this);
+    }
+
+    catch (std::bad_alloc& ex) {
+        qCritical() << "Caught exception when trying to allocate new QCompleter in" << Q_FUNC_INFO << ":" << ex.what();
+        QString message = tr("Caught exception when trying to allocate new QCompleter in %1: %2").arg(Q_FUNC_INFO, ex.what());
+        QMessageBox::critical(this, tr("Out of memory"), message, QMessageBox::Ok);
+        throw;
+    }
+
+    try {
+        m_fileSystemModel = new QFileSystemModel(m_completer);
+        m_fileSystemModel->setRootPath(QDir::rootPath());
+    }
+
+    catch (std::bad_alloc& ex) {
+        qCritical() << "Caught exception when trying to allocate new QFileSystemModel in" << Q_FUNC_INFO << ":" << ex.what();
+        QString message = tr("Caught exception when trying to allocate new "
+                             "QFileSystemModel in %1: %2").arg(Q_FUNC_INFO, ex.what());
+        QMessageBox::critical(this, tr("Out of memory"), message, QMessageBox::Ok);
+        throw;
+    }
+
+    m_completer->setModel(m_fileSystemModel);
+    ui_leSelectedItem->setCompleter(m_completer);
+
+
+    hbox->addWidget(ui_leSelectedItem);
 
     try {
         ui_btnBrowse = new QPushButton(tr("..."), this);
@@ -177,11 +211,13 @@ void QBrowseButton::btnBrowse_clicked() {
     QString selection;
     switch (m_mode) {
     case QFileDialog::DirectoryOnly:
+        m_fileSystemModel->setFilter(QDir::Dirs);
         selection = QFileDialog::getExistingDirectory(this, m_caption, m_selectedItem);
         break;
 
     case QFileDialog::AnyFile:
     default:
+        m_fileSystemModel->setFilter(QDir::Files);
         selection = QFileDialog::getOpenFileName(this, m_caption, m_selectedItem, "*");
         break;
     }
@@ -191,6 +227,35 @@ void QBrowseButton::btnBrowse_clicked() {
 
     m_selectedItem = selection;
     ui_leSelectedItem->setText(selection);
+}
 
-    emit newSelection(selection);
+
+void QBrowseButton::setNeedsToExist(bool needsToExist) {
+    m_needsToExist = needsToExist;
+}
+
+
+void QBrowseButton::leSelectedItem_textChanged(QString text) {
+    QFileInfo fileInfo(text);
+
+    if (m_needsToExist && !fileInfo.exists())
+        return;
+
+    switch (m_mode) {
+    case QFileDialog::DirectoryOnly:
+        if (!fileInfo.isDir())
+            return;
+        break;
+
+    default:
+    case QFileDialog::AnyFile:
+        if (!fileInfo.isFile())
+            return;
+
+        break;
+    }
+
+    qDebug() << "Emitting new selection signal: " << text;
+    m_selectedItem = text;
+    emit newSelection(text);
 }

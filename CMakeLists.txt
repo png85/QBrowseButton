@@ -40,6 +40,8 @@ add_library(QBrowseButton ${libQBrowseButton_MOC_SRCS}
 install(TARGETS QBrowseButton DESTINATION lib/)
 install(FILES ${libQBrowseButton_HDRS} DESTINATION include/)
 
+add_executable(QBrowseButton-test test.cc)
+target_link_libraries(QBrowseButton-test QBrowseButton ${QT_LIBRARIES})
 
 #
 # QBrowseButtonPlugin: Qt Designer plugin to use QBrowseButton in .ui files

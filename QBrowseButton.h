@@ -41,6 +41,7 @@ class QBrowseButton : public QFrame
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon)
     Q_PROPERTY(QString selectedItem READ selectedItem WRITE setSelectedItem)
     Q_PROPERTY(bool needsToExist READ needsToExist WRITE setNeedsToExist)
+    Q_PROPERTY(QStringList nameFilters READ nameFilters WRITE setNameFilters)
 
 public:
     QBrowseButton(QWidget* parent=0);
@@ -94,6 +95,8 @@ public:
 
     bool needsToExist() const { return m_needsToExist; }
 
+    QStringList nameFilters() const { return m_nameFilters; }
+
 public slots:
     void setMode(QFileDialog::FileMode mode);
     void setCaption(QString caption);
@@ -101,6 +104,7 @@ public slots:
     void setSelectedItem(QString path);
     void setIcon(QIcon icon);
     void setNeedsToExist(bool);
+    void setNameFilters(QStringList filters);
 
 signals:
     void newSelection(QString selectedItem);
@@ -147,6 +151,8 @@ private:
     QCompleter *m_completer;
     QFileSystemModel* m_fileSystemModel;
     bool m_needsToExist;
+
+    QStringList m_nameFilters;
 
     void setupUi();
 };

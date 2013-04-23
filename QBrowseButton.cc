@@ -218,7 +218,7 @@ void QBrowseButton::btnBrowse_clicked() {
     case QFileDialog::AnyFile:
     default:
         m_fileSystemModel->setFilter(QDir::Files);
-        selection = QFileDialog::getOpenFileName(this, m_caption, m_selectedItem, "*");
+        selection = QFileDialog::getOpenFileName(this, m_caption, m_selectedItem, m_nameFilters.join(";;"));
         break;
     }
 
@@ -258,4 +258,10 @@ void QBrowseButton::leSelectedItem_textChanged(QString text) {
     qDebug() << "Emitting new selection signal: " << text;
     m_selectedItem = text;
     emit newSelection(text);
+}
+
+
+void QBrowseButton::setNameFilters(QStringList filters) {
+    m_nameFilters = filters;
+    m_fileSystemModel->setNameFilters(filters);
 }

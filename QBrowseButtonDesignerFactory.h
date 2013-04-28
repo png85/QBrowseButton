@@ -5,7 +5,7 @@
  * This file provides the prototypes of the Qt Designer plugin for
  * \a QBrowseButton.
  *
- * \author Peter 'png' Hille <peter@das-system-networks>
+ * \author Peter 'png' Hille <peter@das-system-networks.de>
  *
  * \version 1.0
  */

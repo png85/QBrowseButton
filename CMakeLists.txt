@@ -35,8 +35,7 @@ set(libQBrowseButton_MOC_HDRS QBrowseButton.h)
 set(libQBrowseButton_SRCS QBrowseButton.cc)
 set(libQBrowseButton_HDRS QBrowseButton.h)
 QT4_WRAP_CPP(libQBrowseButton_MOC_SRCS ${libQBrowseButton_MOC_HDRS})
-add_library(QBrowseButton ${libQBrowseButton_MOC_SRCS}
-                          ${libQBrowseButton_SRCS} ${libQBrowseButton_HDRS})
+add_library(QBrowseButton STATIC ${libQBrowseButton_MOC_SRCS} ${libQBrowseButton_SRCS} ${libQBrowseButton_HDRS})
 install(TARGETS QBrowseButton DESTINATION lib/)
 install(FILES ${libQBrowseButton_HDRS} DESTINATION include/)
 

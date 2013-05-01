@@ -114,7 +114,7 @@ void QBrowseButton::setupUi() {
         ui_btnBrowse = new QPushButton(tr("..."), this);
 
         if (m_mode == QFileDialog::AnyFile)
-            ui_btnBrowse->setIcon(QIcon::fromTheme("folder-open"));
+            ui_btnBrowse->setIcon(QIcon::fromTheme("document-open"));
         else
             ui_btnBrowse->setIcon(QIcon::fromTheme("folder-open"));
 

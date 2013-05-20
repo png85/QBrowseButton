@@ -255,7 +255,6 @@ void QBrowseButton::leSelectedItem_textChanged(QString text) {
         break;
     }
 
-    qDebug() << "Emitting new selection signal: " << text;
     m_selectedItem = text;
     emit newSelection(text);
 }

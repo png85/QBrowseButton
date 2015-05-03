@@ -71,7 +71,7 @@ QT4_WRAP_CPP(libQBrowseButton_MOC_SRCS ${libQBrowseButton_MOC_HDRS})
 add_library(QBrowseButton ${LIB_TYPE} ${libQBrowseButton_MOC_SRCS} ${libQBrowseButton_SRCS} ${libQBrowseButton_HDRS})
 target_link_libraries(QBrowseButton ${QT_LIBRARIES})
 if(UNIX AND QBrowseButton_BUILD_SHARED_LIBS)
-    target_set_properties(QBrowseButton PROPERTIES SONAME "QBrowseButton" SOVERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR})
+    set_target_properties(QBrowseButton PROPERTIES SONAME "QBrowseButton" SOVERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR})
 endif(UNIX AND QBrowseButton_BUILD_SHARED_LIBS)
 generate_export_header(QBrowseButton BASE_NAME QBrowseButton
                                      EXPORT_MACRO_NAME QBrowseButton_EXPORT

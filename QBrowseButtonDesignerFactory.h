@@ -16,7 +16,6 @@
 #include <QtDeclarative/QDeclarativeItem>
 #include <QtDesigner/QDesignerCustomWidgetInterface>
 
-
 /** \brief Qt Designer plugin for \a QBrowseButton
  *
  * This class provides a Qt Designer plugin which enables the \a QBrowseButton
@@ -27,13 +26,12 @@
  * \version 1.0 Initial implementation
  */
 class QBrowseButtonDesignerFactory : public QObject,
-        public QDesignerCustomWidgetInterface
-{
+                                     public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    explicit QBrowseButtonDesignerFactory(QDeclarativeItem *parent = 0);
-    
+    explicit QBrowseButtonDesignerFactory(QDeclarativeItem* parent = 0);
+
     virtual QWidget* createWidget(QWidget* parent);
     virtual QString group() const;
     virtual QIcon icon() const;
@@ -44,9 +42,8 @@ public:
     virtual QString whatsThis() const;
 
 signals:
-    
+
 public slots:
-    
 };
 
 #endif // QBROWSEBUTTONDESIGNERFACTORY_H

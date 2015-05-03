@@ -33,8 +33,7 @@
  *
  * \version 1.0 Initial implementation
  */
-class QBrowseButton_EXPORT QBrowseButton : public QFrame
-{
+class QBrowseButton_EXPORT QBrowseButton : public QFrame {
     Q_OBJECT
 
     Q_PROPERTY(QFileDialog::FileMode mode READ mode WRITE setMode)
@@ -46,8 +45,8 @@ class QBrowseButton_EXPORT QBrowseButton : public QFrame
     Q_PROPERTY(QStringList nameFilters READ nameFilters WRITE setNameFilters)
 
 public:
-    QBrowseButton(QWidget* parent=0);
-    QBrowseButton(QDir dir, QWidget* parent=0);
+    QBrowseButton(QWidget* parent = 0);
+    QBrowseButton(QDir dir, QWidget* parent = 0);
 
     /** \brief Get current selection mode
      *
@@ -85,7 +84,6 @@ public:
      * \see m_selectedItem
      */
     QString selectedItem() const { return m_selectedItem; }
-
 
     /** \brief Get button icon
      *
@@ -150,7 +148,7 @@ private:
      */
     QPushButton* ui_btnBrowse;
 
-    QCompleter *m_completer;
+    QCompleter* m_completer;
     QFileSystemModel* m_fileSystemModel;
     bool m_needsToExist;
 

@@ -17,17 +17,15 @@
 #include "QBrowseButton.h"
 #include "QBrowseButtonDesignerFactory.h"
 
-
 /** \brief Default constructor
  *
  * Initializes the QBrowseButton factory for Qt Designer.
  */
-QBrowseButtonDesignerFactory::QBrowseButtonDesignerFactory(QDeclarativeItem *parent) :
-    QObject(parent)
+QBrowseButtonDesignerFactory::QBrowseButtonDesignerFactory(QDeclarativeItem* parent)
+    : QObject(parent)
 {
     // ... nothing ...
 }
-
 
 /** \brief Create QBrowseButton instance
  *
@@ -37,7 +35,8 @@ QBrowseButtonDesignerFactory::QBrowseButtonDesignerFactory(QDeclarativeItem *par
  *
  * \return Pointer to newly created QBrowseButton instance
  */
-QWidget* QBrowseButtonDesignerFactory::createWidget(QWidget *parent) {
+QWidget* QBrowseButtonDesignerFactory::createWidget(QWidget* parent)
+{
     QBrowseButton* widget = nullptr;
     try {
         widget = new QBrowseButton(parent);
@@ -54,68 +53,67 @@ QWidget* QBrowseButtonDesignerFactory::createWidget(QWidget *parent) {
     return reinterpret_cast<QWidget*>(widget);
 }
 
-
 /** \brief Widget group name
  *
  * \return Name of the group under which our widget shall show up in Qt Designer
  */
-QString QBrowseButtonDesignerFactory::group() const {
+QString QBrowseButtonDesignerFactory::group() const
+{
     return "#das-system";
 }
-
 
 /** \brief Widget icon
  *
  * \return Icon to show in Qt Designer's widget list
  */
-QIcon QBrowseButtonDesignerFactory::icon() const {
+QIcon QBrowseButtonDesignerFactory::icon() const
+{
     return QIcon::fromTheme("folder-open");
 }
-
 
 /** \brief Header name for Qt Designer
  *
  * \return Name of C++ header to include for our widget
  */
-QString QBrowseButtonDesignerFactory::includeFile() const {
+QString QBrowseButtonDesignerFactory::includeFile() const
+{
     return "QBrowseButton.h";
 }
-
 
 /** \brief Tooltip text
  *
  * \return Tooltip text that is shown for our widget
  */
-QString QBrowseButtonDesignerFactory::toolTip() const {
+QString QBrowseButtonDesignerFactory::toolTip() const
+{
     return tr("File/Directory Browse Button");
 }
-
 
 /** \brief "What's this?" description
  *
  * \return Descriptive text for "What's This?"
  */
-QString QBrowseButtonDesignerFactory::whatsThis() const {
+QString QBrowseButtonDesignerFactory::whatsThis() const
+{
     return tr("Button to browse for directories or files.");
 }
-
 
 /** \brief Is our widget a container?
  *
  * \return Boolean flag indicating wether our widget is a container (false)
  */
-bool QBrowseButtonDesignerFactory::isContainer() const {
+bool QBrowseButtonDesignerFactory::isContainer() const
+{
     return false;
 }
-
 
 /** \brief Widget name
  *
  * \return Name of our widget to show in Qt Designer
  */
-QString QBrowseButtonDesignerFactory::name() const {
+QString QBrowseButtonDesignerFactory::name() const
+{
     return "QBrowseButton";
 }
-
 
 Q_EXPORT_PLUGIN2(QBrowseButtonDesignerPlugin, QBrowseButtonDesignerFactory)

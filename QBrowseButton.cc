@@ -15,7 +15,6 @@
 #include "nullptr.h"
 #include "QBrowseButton.h"
 
-
 /** \brief Create new QBrowseButton instance
  *
  * Initializes a new QBrowseButton widget that can be used to browse for a
@@ -23,14 +22,17 @@
  *
  * \param parent Parent QWidget that owns the newly created QBrowseButton
  */
-QBrowseButton::QBrowseButton(QWidget *parent) :
-    QFrame(parent), m_mode(QFileDialog::AnyFile), m_caption(tr("Browse for file")),
-    m_selectedItem(""),
-    m_completer(nullptr), m_fileSystemModel(nullptr), m_needsToExist(false)
+QBrowseButton::QBrowseButton(QWidget* parent)
+    : QFrame(parent)
+    , m_mode(QFileDialog::AnyFile)
+    , m_caption(tr("Browse for file"))
+    , m_selectedItem("")
+    , m_completer(nullptr)
+    , m_fileSystemModel(nullptr)
+    , m_needsToExist(false)
 {
     setupUi();
 }
-
 
 /** \brief Create new QBrowseButton for directories
  *
@@ -40,14 +42,15 @@ QBrowseButton::QBrowseButton(QWidget *parent) :
  * \param dir Directory where the browser shall start
  * \param parent Parent QWidget that owns the newly created QBrowseButton
  */
-QBrowseButton::QBrowseButton(QDir dir, QWidget *parent) :
-    QFrame(parent), m_mode(QFileDialog::DirectoryOnly), m_caption(tr("Browse for directory")),
-    m_selectedItem(dir.absolutePath())
+QBrowseButton::QBrowseButton(QDir dir, QWidget* parent)
+    : QFrame(parent)
+    , m_mode(QFileDialog::DirectoryOnly)
+    , m_caption(tr("Browse for directory"))
+    , m_selectedItem(dir.absolutePath())
 {
     setupUi();
     setSelectedItem(m_selectedItem);
 }
-
 
 /** \brief Initialize sub-widgets
  *
@@ -56,7 +59,8 @@ QBrowseButton::QBrowseButton(QDir dir, QWidget *parent) :
  * \internal This helper method is called from the class constructors to reduce code
  * redundancy for initializing all the child widgets of our button.
  */
-void QBrowseButton::setupUi() {
+void QBrowseButton::setupUi()
+{
     QHBoxLayout* hbox = nullptr;
     try {
         hbox = new QHBoxLayout(this);
@@ -77,8 +81,6 @@ void QBrowseButton::setupUi() {
         qCritical() << "Caught exception when trying to allocate new QLineEdit in" << Q_FUNC_INFO << ":" << ex.what();
         throw;
     }
-
-
 
     try {
         m_completer = new QCompleter(this);
@@ -107,7 +109,6 @@ void QBrowseButton::setupUi() {
     m_completer->setModel(m_fileSystemModel);
     ui_leSelectedItem->setCompleter(m_completer);
 
-
     hbox->addWidget(ui_leSelectedItem);
 
     try {
@@ -135,7 +136,6 @@ void QBrowseButton::setupUi() {
     QFrame::setLayout(hbox);
 }
 
-
 /** \brief Set open mode
  *
  * This can be used to specify wether the dialog that gets opened when the user clicks the 'browse'
@@ -146,7 +146,8 @@ void QBrowseButton::setupUi() {
  *
  * \param mode New selection mode for this button
  */
-void QBrowseButton::setMode(QFileDialog::FileMode mode) {
+void QBrowseButton::setMode(QFileDialog::FileMode mode)
+{
     if (!(mode == QFileDialog::AnyFile || QFileDialog::DirectoryOnly)) {
         qWarning() << "Unsupported open mode" << mode << "in" << Q_FUNC_INFO;
         return;
@@ -155,17 +156,16 @@ void QBrowseButton::setMode(QFileDialog::FileMode mode) {
     m_mode = mode;
 }
 
-
 /** \brief Set selection dialog caption
  *
  * Sets the caption for the selection dialog that is shown when the user clicks the 'browse' button.
  *
  * \param title New selection dialog caption
  */
-void QBrowseButton::setCaption(QString title) {
+void QBrowseButton::setCaption(QString title)
+{
     m_caption = title;
 }
-
 
 /** \brief Set selected item
  *
@@ -173,11 +173,11 @@ void QBrowseButton::setCaption(QString title) {
  *
  * \param path New path that shall be shown in the 'selected item' box
  */
-void QBrowseButton::setSelectedItem(QString path) {
+void QBrowseButton::setSelectedItem(QString path)
+{
     m_selectedItem = path;
     ui_leSelectedItem->setText(path);
 }
-
 
 /** \brief Set icon for 'browse' button
  *
@@ -185,10 +185,10 @@ void QBrowseButton::setSelectedItem(QString path) {
  *
  * \param icon New icon for 'browse' button
  */
-void QBrowseButton::setIcon(QIcon icon) {
+void QBrowseButton::setIcon(QIcon icon)
+{
     ui_btnBrowse->setIcon(icon);
 }
-
 
 /** \brief Set 'browse' button caption
  *
@@ -196,10 +196,10 @@ void QBrowseButton::setIcon(QIcon icon) {
  *
  * \param text New caption for 'browse' button
  */
-void QBrowseButton::setButtonText(QString text) {
+void QBrowseButton::setButtonText(QString text)
+{
     ui_btnBrowse->setText(text);
 }
-
 
 /** \brief Slot for \a clicked signal of 'browse' button
  *
@@ -207,7 +207,8 @@ void QBrowseButton::setButtonText(QString text) {
  * a file or directory selection dialog depending on the settings that have been
  * specified for this \a QBrowseButton instance.
  */
-void QBrowseButton::btnBrowse_clicked() {
+void QBrowseButton::btnBrowse_clicked()
+{
     QString selection;
     switch (m_mode) {
     case QFileDialog::DirectoryOnly:
@@ -229,13 +230,13 @@ void QBrowseButton::btnBrowse_clicked() {
     ui_leSelectedItem->setText(selection);
 }
 
-
-void QBrowseButton::setNeedsToExist(bool needsToExist) {
+void QBrowseButton::setNeedsToExist(bool needsToExist)
+{
     m_needsToExist = needsToExist;
 }
 
-
-void QBrowseButton::leSelectedItem_textChanged(QString text) {
+void QBrowseButton::leSelectedItem_textChanged(QString text)
+{
     QFileInfo fileInfo(text);
 
     if (m_needsToExist && !fileInfo.exists())
@@ -259,8 +260,8 @@ void QBrowseButton::leSelectedItem_textChanged(QString text) {
     emit newSelection(text);
 }
 
-
-void QBrowseButton::setNameFilters(QStringList filters) {
+void QBrowseButton::setNameFilters(QStringList filters)
+{
     m_nameFilters = filters;
     m_fileSystemModel->setNameFilters(filters);
 }

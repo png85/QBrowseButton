@@ -30,9 +30,22 @@ endforeach()
 
 #
 # User configurable build options
+option(QBrowseButton_BUILD_AS_SUBMODULE "Build QBrowseButton as git submodule?" OFF)
 option(QBrowseButton_BUILD_SHARED_LIBS "Build QBrowseButton as shared library?" ON)
 option(QBrowseButton_WITH_EXAMPLE "Build demo executable for QBrowseButton?" ON)
 option(QBrowseButton_WITH_DESIGNER_PLUGIN "Build QBrowseButton plugin for Qt Designer?" ON)
+option(QBrowseButton_INSTALL_DESIGNER_PLUGIN "Install Qt Designer plugin to Qt plugin directory?" OFF)
+
+if(NOT QBrowseButton_BUILD_AS_SUBMODULE)
+    set(CPACK_PACKAGE_DESCRIPTION "QBrowseButton widget for Qt4")
+    set(CPACK_PACKAGE_VERSION_MAJOR 1)
+    set(CPACK_PACKAGE_VERSION_MINOR 1)
+    set(CPACK_PACKAGE_VERSION_PATCH 1)
+    if(WIN32)
+        set(CPACK_GENERATOR "ZIP")
+    endif(WIN32)
+    include(CPack)
+endif(NOT QBrowseButton_BUILD_AS_SUBMODULE)
 
 #
 # Look for Qt4
@@ -56,6 +69,10 @@ set(libQBrowseButton_SRCS QBrowseButton.cc)
 set(libQBrowseButton_HDRS QBrowseButton.h)
 QT4_WRAP_CPP(libQBrowseButton_MOC_SRCS ${libQBrowseButton_MOC_HDRS})
 add_library(QBrowseButton ${LIB_TYPE} ${libQBrowseButton_MOC_SRCS} ${libQBrowseButton_SRCS} ${libQBrowseButton_HDRS})
+target_link_libraries(QBrowseButton ${QT_LIBRARIES})
+if(UNIX AND QBrowseButton_BUILD_SHARED_LIBS)
+    target_set_properties(QBrowseButton PROPERTIES SONAME "QBrowseButton" SOVERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR})
+endif(UNIX AND QBrowseButton_BUILD_SHARED_LIBS)
 generate_export_header(QBrowseButton BASE_NAME QBrowseButton
                                      EXPORT_MACRO_NAME QBrowseButton_EXPORT
                                      EXPORT_FILE_NAME QBrowseButton_Export.h
@@ -71,6 +88,7 @@ install(FILES ${libQBrowseButton_HDRS} DESTINATION include/)
 if(QBrowseButton_WITH_EXAMPLE)
     add_executable(QBrowseButton-test test.cc)
     target_link_libraries(QBrowseButton-test QBrowseButton ${QT_LIBRARIES})
+    install(TARGETS QBrowseButton-test RUNTIME DESTINATION bin)
 endif(QBrowseButton_WITH_EXAMPLE)
 
 #
@@ -85,8 +103,13 @@ if(QBrowseButton_WITH_DESIGNER_PLUGIN)
   set(libQBrowseButtonPlugin_MOC_HDRS QBrowseButtonDesignerFactory.h)
   set(libQBrowseButtonPlugin_SRCS QBrowseButtonDesignerFactory.cc)
   QT4_WRAP_CPP(libQBrowseButtonPlugin_MOC_SRCS ${libQBrowseButtonPlugin_MOC_HDRS})
-  add_library(QBrowseButtonPlugin SHARED ${libQBrowseButtonPlugin_MOC_SRCS} ${libQBrowseButtonPlugin_SRCS}
-                                         ${libQBrowseButton_MOC_SRCS} ${libQBrowseButton_SRCS})
-  target_link_libraries(QBrowseButtonPlugin ${QT_LIBRARIES})
-  install(TARGETS QBrowseButtonPlugin DESTINATION ${QT_PLUGINS_DIR}/designer)
+  add_library(QBrowseButtonPlugin SHARED ${libQBrowseButtonPlugin_MOC_SRCS} ${libQBrowseButtonPlugin_SRCS})
+  target_link_libraries(QBrowseButtonPlugin QBrowseButton ${QT_LIBRARIES})
+  if(QBrowseButton_INSTALL_DESIGNER_PLUGIN)
+    install(TARGETS QBrowseButtonPlugin DESTINATION ${QT_PLUGINS_DIR}/designer)
+  else(QBrowseButton_INSTALL_DESIGNER_PLUGIN)
+    install(TARGETS QBrowseButtonPlugin ARCHIVE DESTINATION lib
+                                        LIBRARY DESTINATION lib
+                                        RUNTIME DESTINATION bin)
+  endif(QBrowseButton_INSTALL_DESIGNER_PLUGIN)
 endif(QBrowseButton_WITH_DESIGNER_PLUGIN)

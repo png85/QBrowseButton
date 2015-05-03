@@ -11,6 +11,8 @@
 #ifndef QBROWSEBUTTON_H
 #define QBROWSEBUTTON_H
 
+#include <QBrowseButton_Export.h>
+
 #include <QObject>
 #include <QDir>
 #include <QFrame>
@@ -31,7 +33,7 @@
  *
  * \version 1.0 Initial implementation
  */
-class QBrowseButton : public QFrame
+class QBrowseButton_EXPORT QBrowseButton : public QFrame
 {
     Q_OBJECT
 

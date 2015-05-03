@@ -28,6 +28,11 @@ foreach(flag ${CXX11_FEATURE_LIST})
   add_definitions(-D${flag})
 endforeach()
 
+#
+# User configurable build options
+option(QBrowseButton_BUILD_SHARED_LIBS "Build QBrowseButton as shared library?" ON)
+option(QBrowseButton_WITH_EXAMPLE "Build demo executable for QBrowseButton?" ON)
+option(QBrowseButton_WITH_DESIGNER_PLUGIN "Build QBrowseButton plugin for Qt Designer?" ON)
 
 #
 # Look for Qt4
@@ -35,6 +40,14 @@ find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
+#
+# Setup target library type based on user choice
+if(QBrowseButton_BUILD_SHARED_LIBS)
+    set(LIB_TYPE SHARED)
+else(QBrowseButton_BUILD_SHARED_LIBS)
+    set(LIB_TYPE STATIC)
+endif(QBrowseButton_BUILD_SHARED_LIBS)
+include(GenerateExportHeader)
 
 #
 # libQBrowseButton: Library for applications using QBrowseButton
@@ -42,17 +55,27 @@ set(libQBrowseButton_MOC_HDRS QBrowseButton.h)
 set(libQBrowseButton_SRCS QBrowseButton.cc)
 set(libQBrowseButton_HDRS QBrowseButton.h)
 QT4_WRAP_CPP(libQBrowseButton_MOC_SRCS ${libQBrowseButton_MOC_HDRS})
-add_library(QBrowseButton STATIC ${libQBrowseButton_MOC_SRCS} ${libQBrowseButton_SRCS} ${libQBrowseButton_HDRS})
-install(TARGETS QBrowseButton DESTINATION lib/)
+add_library(QBrowseButton ${LIB_TYPE} ${libQBrowseButton_MOC_SRCS} ${libQBrowseButton_SRCS} ${libQBrowseButton_HDRS})
+generate_export_header(QBrowseButton BASE_NAME QBrowseButton
+                                     EXPORT_MACRO_NAME QBrowseButton_EXPORT
+                                     EXPORT_FILE_NAME QBrowseButton_Export.h
+                                     STATIC_DEFINE QBrowseButton_BUILT_AS_STATIC)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/QBrowseButton_Export.h DESTINATION include/)
+install(TARGETS QBrowseButton ARCHIVE DESTINATION lib
+                              LIBRARY DESTINATION lib
+                              RUNTIME DESTINATION bin)
 install(FILES ${libQBrowseButton_HDRS} DESTINATION include/)
 
-add_executable(QBrowseButton-test test.cc)
-target_link_libraries(QBrowseButton-test QBrowseButton ${QT_LIBRARIES})
+#
+# QBrowseButton-test: Simple demo executable
+if(QBrowseButton_WITH_EXAMPLE)
+    add_executable(QBrowseButton-test test.cc)
+    target_link_libraries(QBrowseButton-test QBrowseButton ${QT_LIBRARIES})
+endif(QBrowseButton_WITH_EXAMPLE)
 
 #
 # QBrowseButtonPlugin: Qt Designer plugin to use QBrowseButton in .ui files
-option(QBROWSEBUTTON_WITH_DESIGNER_PLUGIN "Build plugin to use widget in Qt Designer" ON)
-if(QBROWSEBUTTON_WITH_DESIGNER_PLUGIN)
+if(QBrowseButton_WITH_DESIGNER_PLUGIN)
   add_definitions(${QT_DEFINITIONS})
   add_definitions(-DQT_PLUGIN)
   add_definitions(-DQT_SHARED)
@@ -66,4 +89,4 @@ if(QBROWSEBUTTON_WITH_DESIGNER_PLUGIN)
                                          ${libQBrowseButton_MOC_SRCS} ${libQBrowseButton_SRCS})
   target_link_libraries(QBrowseButtonPlugin ${QT_LIBRARIES})
   install(TARGETS QBrowseButtonPlugin DESTINATION ${QT_PLUGINS_DIR}/designer)
-endif(QBROWSEBUTTON_WITH_DESIGNER_PLUGIN)
+endif(QBrowseButton_WITH_DESIGNER_PLUGIN)

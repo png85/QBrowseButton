@@ -24,7 +24,7 @@
 QBrowseButtonDesignerFactory::QBrowseButtonDesignerFactory(QDeclarativeItem* parent)
     : QObject(parent)
 {
-    // ... nothing ...
+    QBrowseButton_initResources();
 }
 
 /** \brief Create QBrowseButton instance
@@ -116,4 +116,6 @@ QString QBrowseButtonDesignerFactory::name() const
     return "QBrowseButton";
 }
 
+#if (QT_VERSION < 0x050000)
 Q_EXPORT_PLUGIN2(QBrowseButtonDesignerPlugin, QBrowseButtonDesignerFactory)
+#endif

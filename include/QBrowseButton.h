@@ -11,8 +11,6 @@
 #ifndef QBROWSEBUTTON_H
 #define QBROWSEBUTTON_H
 
-#include <QBrowseButton_Export.h>
-
 #include <QObject>
 #include <QDir>
 #include <QFrame>
@@ -24,6 +22,12 @@
 #include <QAbstractItemModel>
 #include <QCompleter>
 #include <QFileSystemModel>
+
+#if (QT_VERSION >= 0x050000)
+#include <QBrowseButton5_Export.h>
+#else
+#include <QBrowseButton4_Export.h>
+#endif
 
 /** \brief 'Browse...' button for files or directories
  *
@@ -156,5 +160,7 @@ private:
 
     void setupUi();
 };
+
+void QBrowseButton_EXPORT QBrowseButton_initResources();
 
 #endif // QBROWSEBUTTON_H

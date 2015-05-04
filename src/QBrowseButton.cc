@@ -8,12 +8,13 @@
  *
  * \version 1.0
  */
+#include <QBrowseButton.h>
+#ifndef HAS_CXX11_NULLPTR
+#include <nullptr.h>
+#endif
 #include <QHBoxLayout>
 #include <QDebug>
 #include <QMessageBox>
-
-#include "nullptr.h"
-#include "QBrowseButton.h"
 
 /** \brief Create new QBrowseButton instance
  *
@@ -115,9 +116,9 @@ void QBrowseButton::setupUi()
         ui_btnBrowse = new QPushButton(tr("..."), this);
 
         if (m_mode == QFileDialog::AnyFile)
-            ui_btnBrowse->setIcon(QIcon::fromTheme("document-open"));
+            ui_btnBrowse->setIcon(QIcon(":/QBrowseButton/page_white_magnify.png"));
         else
-            ui_btnBrowse->setIcon(QIcon::fromTheme("folder-open"));
+            ui_btnBrowse->setIcon(QIcon(":/QBrowseButton/folder_explore.png"));
 
         ui_btnBrowse->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
@@ -264,4 +265,10 @@ void QBrowseButton::setNameFilters(QStringList filters)
 {
     m_nameFilters = filters;
     m_fileSystemModel->setNameFilters(filters);
+}
+
+
+void QBrowseButton_initResources()
+{
+    Q_INIT_RESOURCE(qbrowsebutton);
 }

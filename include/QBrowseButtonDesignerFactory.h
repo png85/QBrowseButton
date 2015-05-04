@@ -24,11 +24,15 @@
  * \author Peter 'png' Hille <peter@das-system-networks.de>
  *
  * \version 1.0 Initial implementation
+ * \version 1.1 Qt5 plugin metadata for shared Qt4/5 build
  */
 class QBrowseButtonDesignerFactory : public QObject,
                                      public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
+#if (QT_VERSION >= 0x050000)
+    Q_PLUGIN_METADATA(IID "de.das-system-networks.QBrowseButton.DesignerPlugin")
+#endif
 public:
     explicit QBrowseButtonDesignerFactory(QDeclarativeItem* parent = 0);
 

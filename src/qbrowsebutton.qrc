@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/QBrowseButton">
+        <file alias="folder_explore.png">icons/folder_explore.png</file>
+        <file alias="page_white_magnify.png">icons/page_white_magnify.png</file>
+    </qresource>
+</RCC>

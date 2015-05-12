@@ -21,7 +21,7 @@ if(Qt4_FOUND AND QBrowseButton_ENABLE_QT4)
     # QBrowseButton4-test: Demo executable for Qt4
     if(QBrowseButton_WITH_EXAMPLE)
         add_executable(QBrowseButton4-test ../src/test.cc)
-        target_compile_features(QBrowseButton4-test PRIVATE cxx_nullptr cxx_lambdas cxx_deleted_functions)
+        target_compile_features(QBrowseButton4-test PRIVATE cxx_nullptr cxx_lambdas)
         target_link_libraries(QBrowseButton4-test QBrowseButton4 Qt4::QtCore Qt4::QtGui)
         install(TARGETS QBrowseButton4-test RUNTIME DESTINATION bin)
     endif(QBrowseButton_WITH_EXAMPLE)

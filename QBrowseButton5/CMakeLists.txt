@@ -23,7 +23,7 @@ if(Qt5Widgets_FOUND AND QBrowseButton_ENABLE_QT5)
     # QBrowseButton5-test: Demo executable for Qt5
     if(QBrowseButton_WITH_EXAMPLE)
         add_executable(QBrowseButton5-test ../src/test.cc)
-        target_compile_features(QBrowseButton5-test PRIVATE cxx_nullptr cxx_lambdas cxx_deleted_functions)
+        target_compile_features(QBrowseButton5-test PRIVATE cxx_nullptr cxx_lambdas)
         target_link_libraries(QBrowseButton5-test QBrowseButton5)
         qt5_use_modules(QBrowseButton5-test Widgets)
         install(TARGETS QBrowseButton5-test RUNTIME DESTINATION bin)

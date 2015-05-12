@@ -8,7 +8,24 @@
 
 #include <functional>
 
-class finally;
+// helper class that can be used to execute a lambda on scope exit
+class finally {
+public:
+    finally(const std::function<void()>& func)
+        : m_functor(func)
+    {
+    }
+    finally(const finally&) QBrowseButton_DELETED_FUNCTION;
+    finally(const finally&&) QBrowseButton_DELETED_FUNCTION;
+
+    ~finally()
+    {
+        m_functor();
+    }
+
+private:
+    std::function<void()> m_functor;
+};
 
 int main(int argc, char** argv)
 {
@@ -36,21 +53,3 @@ int main(int argc, char** argv)
     return EXIT_FAILURE; // this should never be reached
 }
 
-// helper class that can be used to execute a lambda on scope exit
-class finally {
-public:
-    finally(const std::function<void()>& func)
-        : m_functor(func)
-    {
-    }
-    finally(const finally&) QBrowseButton_DELETED_FUNCTION;
-    finally(const finally&&) QBrowseButton_DELETED_FUNCTION;
-
-    ~finally()
-    {
-        m_functor();
-    }
-
-private:
-    std::function<void()> m_functor;
-};

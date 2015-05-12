@@ -41,7 +41,7 @@ option(QBrowseButton_ENABLE_QT5 "Enable Qt5 version of widget?" ON)
 # Version number (for packages & Unix SOVERSION)
 set(QBrowseButton_VERSION_MAJOR 1)
 set(QBrowseButton_VERSION_MINOR 2)
-set(QBrowseButton_VERSION_PATCH 0)
+set(QBrowseButton_VERSION_PATCH 1)
 
 if(NOT QBrowseButton_BUILD_AS_SUBMODULE)
     set(CPACK_PACKAGE_DESCRIPTION "QBrowseButton widget for Qt")

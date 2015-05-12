@@ -56,7 +56,7 @@ write_compiler_detection_header(FILE ${CMAKE_CURRENT_BINARY_DIR}/include/QBrowse
                                 PREFIX QBrowseButton
                                 VERSION 3.1.0
                                 COMPILERS ${supported_compilers}
-                                FEATURES cxx_nullptr)
+                                FEATURES cxx_nullptr cxx_lambdas cxx_deleted_functions)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
 #

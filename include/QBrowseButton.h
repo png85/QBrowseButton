@@ -162,5 +162,6 @@ private:
 };
 
 void QBrowseButton_EXPORT QBrowseButton_initResources();
+void QBrowseButton_EXPORT QBrowseButton_cleanupResources();
 
 #endif // QBROWSEBUTTON_H

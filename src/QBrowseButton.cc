@@ -266,8 +266,12 @@ void QBrowseButton::setNameFilters(QStringList filters)
     m_fileSystemModel->setNameFilters(filters);
 }
 
-
 void QBrowseButton_initResources()
 {
     Q_INIT_RESOURCE(qbrowsebutton);
+}
+
+void QBrowseButton_cleanupResources()
+{
+    Q_CLEANUP_RESOURCE(qbrowsebutton);
 }

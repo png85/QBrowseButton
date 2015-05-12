@@ -1,0 +1,10 @@
+#ifndef QBrowseButton_VERSION_H
+#define QBrowseButton_VERSION_H 1
+
+#define QBrowseButton_VERSION_MAJOR @QBrowseButton_VERSION_MAJOR@
+#define QBrowseButton_VERSION_MINOR @QBrowseButton_VERSION_MINOR@
+#define QBrowseButton_VERSION_PATCH @QBrowseButton_VERSION_PATCH@
+
+#define QBrowseButton_VERSION_STRING "@QBrowseButton_VERSION_MAJOR@.@QBrowseButton_VERSION_MINOR@.@QBrowseButton_VERSION_PATCH@ (@CMAKE_CXX_COMPILER_ID@ @CMAKE_BUILD_TYPE@)"
+
+#endif /* !QBrowseButton_VERSION_H */

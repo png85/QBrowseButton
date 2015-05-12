@@ -13,7 +13,11 @@ if(Qt5Widgets_FOUND AND QBrowseButton_ENABLE_QT5)
 
     #
     # QBrowseButton5: Qt5 version of QBrowseButton widget
-    add_library(${QBrowseButton_LIBRARY} ${LIB_TYPE} ../src/QBrowseButton.cc ../include/QBrowseButton.h ../src/qbrowsebutton.qrc)
+    set(QBrowseButton_SRCS ../src/QBrowseButton.cc ../include/QBrowseButton.h ../src/qbrowsebutton.qrc)
+    if(WIN32)
+        list(APPEND QBrowseButton_SRCS ../src/QBrowseButton.rc)
+    endif(WIN32)	
+    add_library(${QBrowseButton_LIBRARY} ${LIB_TYPE} ${QBrowseButton_SRCS})
     target_compile_features(${QBrowseButton_LIBRARY} PRIVATE cxx_nullptr)
     qt5_use_modules(${QBrowseButton_LIBRARY} Widgets)
     set_target_properties(${QBrowseButton_LIBRARY} PROPERTIES COMPILE_DEFINITIONS "QBrowseButton_EXPORTS" ${QT_DEFINITIONS})
@@ -42,8 +46,12 @@ if(Qt5Widgets_FOUND AND QBrowseButton_ENABLE_QT5)
     #
     # QBrowseButton5Plugin: Qt Designer plugin for Qt5
     if(QBrowseButton_WITH_DESIGNER_PLUGIN)
+        set(Plugin_SRCS ../src/QBrowseButtonDesignerFactory.cc ../include/QBrowseButtonDesignerFactory.h)
+        if(WIN32)
+            list(APPEND Plugin_SRCS ../src/QBrowseButtonDesignerFactory.rc)
+        endif(WIN32)
         list(APPEND ${QBrowseButton_LIBRARY}Plugin_DEFINITIONS ${QT_DEFINITIONS} QT_DLL QT_PLUGIN QT_SHARED)
-        add_library(${QBrowseButton_LIBRARY}Plugin SHARED ../src/QBrowseButtonDesignerFactory.cc ../include/QBrowseButtonDesignerFactory.h)
+        add_library(${QBrowseButton_LIBRARY}Plugin SHARED ${Plugin_SRCS})
         target_compile_features(${QBrowseButton_LIBRARY}Plugin PRIVATE cxx_nullptr)
         target_link_libraries(${QBrowseButton_LIBRARY}Plugin QBrowseButton5)
         set_target_properties(${QBrowseButton_LIBRARY}Plugin PROPERTIES COMPILE_DEFINITIONS ${QBrowseButton5Plugin_DEFINITIONS})

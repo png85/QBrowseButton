@@ -59,6 +59,8 @@ write_compiler_detection_header(FILE ${CMAKE_CURRENT_BINARY_DIR}/include/QBrowse
                                 FEATURES cxx_nullptr cxx_lambdas cxx_deleted_functions)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
+configure_file(QBrowseButton_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/QBrowseButton_version.h)
+
 #
 # Subdirectory builds for Qt4/5 versions of all libraries
 if(NOT QBrowseButton_ENABLE_QT4 AND NOT QBrowseButton_ENABLE_QT5)

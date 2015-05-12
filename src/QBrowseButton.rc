@@ -1,0 +1,27 @@
+#include <windows.h>
+#include <QBrowseButton_version.h>
+
+VS_VERSION_INFO VERSIONINFO
+
+FILEVERSION     0,QBrowseButton_VERSION_MAJOR,QBrowseButton_VERSION_MINOR,QBrowseButton_VERSION_PATCH
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_DLL
+
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4" /* US English, ANSI Codepage */
+        BEGIN
+            VALUE "CompanyName",        "#das-system Networks"
+            VALUE "FileDescription",    "QBrowseButton widget for Qt"
+            VALUE "InternalName",       "QBrowseButton"
+            VALUE "LegalCopyright",     "2015 #das-system Networks"
+            VALUE "ProductName",        "QBrowseButton"
+            VALUE "ProductVersion",     QBrowseButton_VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END

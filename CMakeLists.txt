@@ -1,32 +1,5 @@
 project(QBrowseButton)
-cmake_minimum_required(VERSION 3.0)
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-#
-# Enable C++11 for GCC builds
-if(CMAKE_COMPILER_IS_GNUCXX)
-    include(CheckCXXCompilerFlag)
-    check_cxx_compiler_flag("-std=c++11" GCC_stdcxx11)
-    check_cxx_compiler_flag("-std=c++0x" GCC_stdcxx0x)
-
-    if(GCC_stdcxx11)
-        # Compiler supports -std=c++11
-        message(STATUS "Using -std=c++11 to enable C++11 in GCC")
-        add_definitions(-std=c++11)
-    elseif(GCC_stdcxx0x)
-        # Compiler doesn't support -std=c++11 but -std=c++0x
-        message(STATUS "Using -std=c++0x to enable C++11 in GCC")
-        add_definitions(-std=c++0x)
-    else()
-        # Neither -std=c++11 nor -std=c++0x are supported
-        message(WARNING "Failed to determine C++11 flag for GCC :-(")
-    endif()
-endif(CMAKE_COMPILER_IS_GNUCXX)
-
-include(CheckCXX11Features)
-foreach(flag ${CXX11_FEATURE_LIST})
-  add_definitions(-D${flag})
-endforeach()
+cmake_minimum_required(VERSION 3.1)
 
 #
 # User configurable build options
@@ -72,6 +45,19 @@ else(QBrowseButton_BUILD_SHARED_LIBS)
     set(LIB_TYPE STATIC)
 endif(QBrowseButton_BUILD_SHARED_LIBS)
 include(GenerateExportHeader)
+
+include(WriteCompilerDetectionHeader)
+if(WIN32)
+    set(supported_compilers GNU Clang MSVC)
+else(WIN32)
+    set(supported_compilers GNU Clang)
+endif(WIN32)
+write_compiler_detection_header(FILE ${CMAKE_CURRENT_BINARY_DIR}/include/QBrowseButton_compiler_features.h
+                                PREFIX QBrowseButton
+                                VERSION 3.1.0
+                                COMPILERS ${supported_compilers}
+                                FEATURES cxx_nullptr)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
 #
 # Subdirectory builds for Qt4/5 versions of all libraries

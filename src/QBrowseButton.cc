@@ -9,9 +9,8 @@
  * \version 1.0
  */
 #include <QBrowseButton.h>
-#ifndef HAS_CXX11_NULLPTR
-#include <nullptr.h>
-#endif
+#include <QBrowseButton_compiler_features.h>
+
 #include <QHBoxLayout>
 #include <QDebug>
 #include <QMessageBox>
@@ -28,8 +27,8 @@ QBrowseButton::QBrowseButton(QWidget* parent)
     , m_mode(QFileDialog::AnyFile)
     , m_caption(tr("Browse for file"))
     , m_selectedItem("")
-    , m_completer(nullptr)
-    , m_fileSystemModel(nullptr)
+    , m_completer(QBrowseButton_NULLPTR)
+    , m_fileSystemModel(QBrowseButton_NULLPTR)
     , m_needsToExist(false)
 {
     setupUi();
@@ -62,7 +61,7 @@ QBrowseButton::QBrowseButton(QDir dir, QWidget* parent)
  */
 void QBrowseButton::setupUi()
 {
-    QHBoxLayout* hbox = nullptr;
+    QHBoxLayout* hbox = QBrowseButton_NULLPTR;
     try {
         hbox = new QHBoxLayout(this);
     }

@@ -1,4 +1,8 @@
 #include <QBrowseButton.h>
+
+#include <cstddef>
+#include <memory>
+#include <QDebug>
 #include <QApplication>
 
 int main(int argc, char** argv)
@@ -7,8 +11,16 @@ int main(int argc, char** argv)
 
     QBrowseButton_initResources();
 
-    QBrowseButton* b = new QBrowseButton();
-    b->show();
+    try {
+        std::unique_ptr<QBrowseButton> bb(new QBrowseButton());
+        bb->show();
+        return a.exec();
+    }
 
-    return a.exec();
+    catch (std::bad_alloc& ex) {
+        qCritical() << "Failed to allocate memory for QBrowseButton: " << ex.what();
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_FAILURE; // this should never be reached
 }

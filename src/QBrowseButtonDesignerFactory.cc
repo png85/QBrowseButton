@@ -13,9 +13,9 @@
 #include <QMessageBox>
 #include <QtPlugin>
 
-#include "nullptr.h"
-#include "QBrowseButton.h"
-#include "QBrowseButtonDesignerFactory.h"
+#include <QBrowseButton.h>
+#include <QBrowseButton_compiler_features.h>
+#include <QBrowseButtonDesignerFactory.h>
 
 /** \brief Default constructor
  *
@@ -37,7 +37,7 @@ QBrowseButtonDesignerFactory::QBrowseButtonDesignerFactory(QDeclarativeItem* par
  */
 QWidget* QBrowseButtonDesignerFactory::createWidget(QWidget* parent)
 {
-    QBrowseButton* widget = nullptr;
+    QBrowseButton* widget = QBrowseButton_NULLPTR;
     try {
         widget = new QBrowseButton(parent);
     }
